@@ -16,15 +16,23 @@ public class OrderService {
     private Repository<Product, UUID> productRepo;
     private Repository<Customer, UUID> customerRepo;
     private Notifier notifier;
+    private CouponService couponService;
+    private DiscountRuleService discountRuleService;
+
+
 
     public OrderService(Repository<Order, UUID> orderRepo,
                         Repository<Product, UUID> productRepo,
                         Repository<Customer, UUID> customerRepo,
-                        Notifier notifier) {
+                        Notifier notifier,
+                        CouponService couponService,
+                        DiscountRuleService discountRuleService) {
         this.orderRepo = orderRepo;
         this.productRepo = productRepo;
         this.customerRepo = customerRepo;
         this.notifier = notifier;
+        this.couponService = couponService;
+        this.discountRuleService = discountRuleService;
     }
 
     public Order createOrder(UUID customerId){
@@ -76,6 +84,27 @@ public class OrderService {
     }
 
     private Order getOrder(UUID id) { return orderRepo.findById(id).orElseThrow(() -> new DomainException("Pedido no encontrado")); }
+
+    public Order applyCoupon(UUID orderId, String couponCode) {
+        Order order = getOrder(orderId);
+        
+        if (couponService == null) {
+            throw new DomainException("Servicio de cupones no disponible");
+        }
+        
+        BigDecimal discount = couponService.applyCoupon(couponCode, order.getSubtotal(), order.getTotalQuantity());
+        order.applyCouponDiscount(couponCode, discount);
+        
+        return orderRepo.update(order);
+    }
+
+    public Order removeCoupon(UUID orderId) {
+        Order order = getOrder(orderId);
+        order.removeCouponDiscount();
+        return orderRepo.update(order);
+    }
+
+
 
     public Repository<Order, UUID> getOrderRepo() {
         return orderRepo;

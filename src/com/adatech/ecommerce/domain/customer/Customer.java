@@ -29,7 +29,7 @@ public class Customer implements Identidicable <UUID> {
 
 
     public void setName(String name) {
-        if (name == null || name.isBlank()) throw new DomainException("Nome requerido");
+        if (name == null || name.isBlank()) throw new DomainException("Nombre requerido");
         this.name = name.trim();
     }
 

@@ -13,8 +13,8 @@ public class OrderItem {
 
 
     public OrderItem(UUID produtId, String productName, int quantity, BigDecimal salePrice) {
-        if (produtId == null) throw new DomainException("Produto requerido");
-        if (productName == null || productName.isBlank()) throw new DomainException("Nome produto requerido");
+        if (produtId == null) throw new DomainException("Producto requerido");
+        if (productName == null || productName.isBlank()) throw new DomainException("Nome producto requerido");
         if (salePrice == null || salePrice.signum() <= 0) throw new DomainException("Precio de venta invalido");
         setQuantity(quantity);
 
@@ -26,7 +26,7 @@ public class OrderItem {
     }
 
     public void setQuantity(int q) {
-        if (q <=0) throw new DomainException("Quantidade deve ser maior que zero");
+        if (q <=0) throw new DomainException("Cantidad debe ser mayor que cero");
         this.quantity = q;
     }
 
@@ -51,7 +51,7 @@ public class OrderItem {
     }
 
     public BigDecimal setSalePrice(BigDecimal price) {
-        if (price == null || salePrice.signum() <= 0) throw new DomainException("Preco invalido");
+        if (price == null || salePrice.signum() <= 0) throw new DomainException("Precio invalido");
         this.salePrice = price;
         return this.salePrice;
     }
