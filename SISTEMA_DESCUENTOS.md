@@ -13,6 +13,7 @@ Se ha implementado un sistema completo de cupones de descuento y reglas de descu
 - **Tipos de descuento**: 
   - `FIXED_AMOUNT`: Descuento fijo en valor monetario
   - `PERCENTAGE`: Descuento porcentual
+  - `PROGRESSIVE`: Descuento que aumenta con el aumento de cantidades del pedido 
 - **Validación temporal**: Fechas de inicio y expiración
 - **Control de uso**: Límite máximo de usos y seguimiento de usos actuales
 - **Valor mínimo**: Establece un valor mínimo del pedido para aplicar el cupón
@@ -23,7 +24,6 @@ Se ha implementado un sistema completo de cupones de descuento y reglas de descu
 - Listar todos los cupones
 - Listar cupones disponibles (válidos y no usados)
 - Actualizar cupones existentes
-- Desactivar cupones
 - Expirar cupones vencidos automáticamente
 - Aplicar cupones a pedidos
 - Remover cupones de pedidos
@@ -38,21 +38,12 @@ Se ha implementado un sistema completo de cupones de descuento y reglas de descu
 - Validación temporal
 
 ##### Reglas Compuestas:
-- Combinación de múltiples reglas simples
+- Descuento progresivo basado en la cantidad de items
 - Operadores lógicos:
   - `AND`: Aplica todas las reglas y suma los descuentos
   - `OR`: Aplica la regla con mayor descuento
 - Jerarquía de reglas padre-hijo
 
-#### Operaciones disponibles:
-- Crear reglas simples
-- Crear reglas compuestas
-- Listar todas las reglas
-- Listar reglas activas
-- Actualizar reglas existentes
-- Agregar reglas hijas a reglas compuestas
-- Desactivar reglas
-- Aplicar la mejor regla disponible a un pedido
 
 ### 3. Integración con Pedidos
 
@@ -62,7 +53,6 @@ Se ha implementado un sistema completo de cupones de descuento y reglas de descu
 - **Descuento por regla**: Descuento aplicado por regla de descuento
 - **Total**: Subtotal menos todos los descuentos aplicados
 - **Aplicación de cupones**: Solo en pedidos abiertos
-- **Aplicación de reglas**: Automática o manual
 
 ## Estructura del Código
 
@@ -86,44 +76,39 @@ Se ha implementado un sistema completo de cupones de descuento y reglas de descu
 
 ### Menú Principal Actualizado:
 ```
-======MEMU E-COMMERCE======
-1-  Cadastrar Cliente
-2-  Listar Clientes
-3-  Cadastar Produto
-4-  listar Produtos
-5-  Criar Pedido
-6-  Adicionar Item ao Pedido
-7-  Remover Item do Pedido
-8-  Alterar quantidade do Item do pedido
-9-  Finalizar Pedido
-10- Pagar Pedido
-11- Entregar Pedido
-12- Listar Pedidos
-13- Aplicar Cupón de Descuento
-14- Remover Cupón de Descuento
-15- Aplicar Mejor Regla de Descuento
-16- Remover Regla de Descuento
-17- Gestionar Cupones
-18- Gestionar Reglas de Descuento
-0- Sair
+ ======MEMU E-COMMERCE======
+ 1-  Cadastrar Cliente
+ 2-  Listar Clientes
+ 3-  Cadastar Produto
+ 4-  listar Produtos
+ 5-  Criar Pedido
+ 6-  Adicionar Item ao Pedido
+ 7-  Remover Item do Pedido
+ 8-  Alterar quantidade do Item do pedido
+ 9-  Finalizar Pedido
+ 10- Pagar Pedido
+ 11- Entregar Pedido
+ 12- Listar Pedidos
+ 13- Aplicar Cupón de Descuento
+ 14- Remover Cupón de Descuento
+ 15- Criar Cupons de descuento
+ 16- Listar Cupones Disponibles
+ 17- Atualizar Cupón de Descuento
+  0- Sair
+  ==== Escolha uma opcao: ====
 ```
 
 ### Flujo de Trabajo Típico:
 
 1. **Crear un cupón**:
-   - Ir a opción 17 (Gestionar Cupones)
+   - Ir a opción 15 
    - Seleccionar "Crear Cupón"
    - Ingresar código, descripción, valor, tipo, fechas, etc.
 
-2. **Crear una regla de descuento**:
-   - Ir a opción 18 (Gestionar Reglas de Descuento)
-   - Seleccionar "Crear Regla Simple" o "Crear Regla Compuesta"
-   - Configurar parámetros de la regla
-
-3. **Aplicar descuentos a un pedido**:
+2**Aplicar descuentos a un pedido**:
    - Crear un pedido (opción 5)
    - Agregar items al pedido (opción 6)
-   - Aplicar cupón (opción 13) o regla (opción 15)
+   - Aplicar cupón (opción 13) 
    - Finalizar pedido (opción 9)
 
 ## Validaciones Implementadas
